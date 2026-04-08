@@ -8,7 +8,6 @@ export class EmbedChunk {
     }
 
     private embeddingSingleChunk = async (chunk: string) => {
-        console.info("Hello");
         const request: EmbeddingsRequest = {
             model: 'nomic-embed-text',
             prompt: chunk,

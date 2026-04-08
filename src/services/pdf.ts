@@ -23,6 +23,6 @@ export const extractPDF = async (pdf: Buffer): Promise<ExtractPDFType> => {
 
     } catch (err) {
         console.error("Error: ", err);
-        throw new Error("Error extracting the PDF..");
+        throw new Error(`Error extracting the PDF. ${err}`);
     }
 }

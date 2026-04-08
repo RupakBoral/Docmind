@@ -3,6 +3,7 @@ import multer from "multer";
 import { extractPDF, ExtractPDFType } from "../services/pdf";
 import { chunkPDF } from "../services/chunking";
 import { EmbedChunk } from "../services/embedding";
+import { ingest } from "../services/ingest";
 
 const upload = multer({ storage: multer.memoryStorage() })
 export const fileRouter = Router();
@@ -20,6 +21,7 @@ fileRouter.post('/ingest', upload.single("file"), async (req: Request, res: Resp
         const chunks: string[] = chunkPDF(extractedResult);
         const embedObject = new EmbedChunk();
         const embeddings = await embedObject.embeddingChunks(chunks);
+        await ingest(chunks, embeddings);
 
         res.status(200).json({ success: true, message: "Success" });
     } catch (error) {
