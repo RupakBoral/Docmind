@@ -14,7 +14,7 @@ export const ingest = async (chunks: string[], embeddings: number[][]) => {
 
         await Promise.all(
             chunks.map((content, index) => {
-                const vectorString = `[${embeddings[index].join(',')}]`;  // [0.1, 0.2, ...]
+                const vectorString = `[${embeddings[index].join(',')}]`;
                 return prisma.$executeRaw`
                     INSERT INTO "chunk" (id, document_id, content, embedding, page)
                     VALUES (
