@@ -1,6 +1,6 @@
 # docmind 🧠📖
 
-> A Query Transformation style RAG (Retrieval Augmented Generation) system — upload PDFs and ask questions about them using local embeddings and Gemini for Free.
+> A Query Transformation style RAG (Retrieval Augmented Generation) system — upload PDFs and ask questions about them using local embeddings and Groq for Free.
 
 ---
 
@@ -23,7 +23,7 @@ INGEST (one time per document):
 PDF → extract text → split into chunks → embed via nomic-embed-text → store in pgvector
 
 QUERY (every question):
-Question → rewrite for better retrieval → embed → similarity search → top 5 chunks → Gemini → answer
+Question → rewrite for better retrieval → embed → similarity search → top 5 chunks → Groq → answer
 ```
 
 ---
@@ -35,7 +35,7 @@ Question → rewrite for better retrieval → embed → similarity search → to
 | Runtime | Node.js 18 |
 | Language | TypeScript |
 | Framework | Express |
-| LLM | Gemini 2.0 Flash (Google AI Studio) |
+| LLM | Groq |
 | Embeddings | nomic-embed-text via Ollama (local) |
 | Vector DB | pgvector (PostgreSQL extension) |
 | ORM | Prisma |
@@ -66,7 +66,7 @@ docmind/
 │   │   ├── chunking.ts               # Split text into chunks
 │   │   ├── embedding.ts              # nomic-embed-text via Ollama
 │   │   ├── retrieval.ts              # pgvector similarity search
-│   │   └── llm.ts                    # Gemini query rewriting + answer generation
+│   │   └── llm.ts                    # Groq query rewriting + answer generation
 │   └── middlewares/
 │       └── upload.ts                 # Multer file upload
 ├── prisma/
@@ -142,8 +142,8 @@ PORT=8080
 # PostgreSQL
 DATABASE_URL=postgresql://username:password@postgres:5432/your_db
 
-# Google Gemini
-GEMINI_API_KEY=your_gemini_api_key
+# Google Groq
+GROQ_API_KEY=your_groq_api_key
 ```
 
 ---
@@ -152,7 +152,7 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ### Prerequisites
 - Docker + Docker Compose
-- Google AI Studio API key → https://aistudio.google.com
+- Groq API
 
 ### Start
 
@@ -163,7 +163,7 @@ cd docmind
 
 # copy env
 cp .env.example .env
-# add your GEMINI_API_KEY to .env
+# add your GROQ_API_KEY to .env
 
 # start all services
 docker-compose up --build
