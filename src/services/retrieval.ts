@@ -6,7 +6,7 @@ export interface RetrieveChunks {
     similarity: number;
 }
 
-export const retrieve = async (vector_string: string, doc_id: string | null): Promise<Array<RetrieveChunks>> => {
+export const retrieve = async (account_id: string, vector_string: string, doc_id: string | null): Promise<Array<RetrieveChunks>> => {
     try {
         if (!vector_string || vector_string.length === 0) {
             throw new Error("Invalid vector input");
@@ -14,17 +14,24 @@ export const retrieve = async (vector_string: string, doc_id: string | null): Pr
 
         const chunks: Array<RetrieveChunks> = doc_id
             ? await prisma.$queryRaw`
-                SELECT content, page,
+                SELECT ch.content, ch.page,
                 1 - (embedding <=> ${vector_string}::vector) as similarity
-                FROM "chunk"
-                WHERE document_id = ${doc_id}
+                FROM account AS acc
+                JOIN document AS doc
+                ON doc.account_id = ${account_id}
+                JOIN "chunk" AS ch
+                ON ch.document_id = ${doc_id}
                 ORDER BY similarity DESC
                 LIMIT 5
-            `
+                `
             : await prisma.$queryRaw`
-                SELECT content, page,
+                SELECT ch.content, ch.page,
                 1 - (embedding <=> ${vector_string}::vector) as similarity
-                FROM "chunk"
+                FROM account AS acc
+                JOIN document AS doc
+                ON doc.account_id = ${account_id}
+                JOIN "chunk" AS ch
+                ON ch.document_id = doc.id
                 ORDER BY similarity DESC
                 LIMIT 5
             `;

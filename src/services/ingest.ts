@@ -1,12 +1,13 @@
 import { prisma } from "../config/db";
 
-export const ingest = async (chunks: string[], embeddings: number[][]): Promise<string> => {
+export const ingest = async (account_id: string, chunks: string[], embeddings: number[][]): Promise<string> => {
     try {
         const doc = await prisma.document.create({
             data: {
                 name: 'Doc',
                 size: 1,
-                pages: 1
+                pages: 1,
+                account_id: account_id
             }
         });
 

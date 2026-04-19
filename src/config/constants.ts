@@ -5,5 +5,9 @@ export const CONFIG = {
     },
     LLM: {
         API_KEY: process.env.GROQ_API || ''
+    },
+    JWT: {
+        SECRET: process.env.JWT_SECRET || 'fallback_secret',
+        EXPIRY: '24h'
     }
 }
