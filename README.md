@@ -164,12 +164,12 @@ GROQ_API_KEY=your_groq_api_key
 
 ```bash
 # clone the repo
-git clone https://github.com/RupakBoral/docmind.git
-cd docmind
+git clone https://github.com/RupakBoral/Docmind.git
+cd docmind/backend
 
 # copy env
 cp .env.example .env
-# add your GROQ_API_KEY to .env
+# add your API KEYs and other details
 
 # start psql services
 docker-compose up -d --build
@@ -179,12 +179,9 @@ docker exec -it docmind-app-1 npx prisma db push
 
 # Pull the embedding model (274 MB model, first time only)
 
-docker exec -it <ollama-container-name> ollama pull nomic-embed-text
+docker exec -it docmind-ollama ollama pull nomic-embed-text
 ```
 
-``
-Note: You can find the ollama container name from the below command
-``
 
 ### Check all containers status
 ```

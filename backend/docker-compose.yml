@@ -9,6 +9,7 @@ services:
     depends_on:
       - db
       - ollama
+    container_name: docmind-app
 
   db:
     image: pgvector/pgvector:pg16
@@ -19,6 +20,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    container_name: docmind-db
 
   ollama:
     image: ollama/ollama
@@ -26,6 +28,7 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    container_name: docmind-ollama
 
 volumes:
   pgdata:
